@@ -1,5 +1,6 @@
 package com.core;
 
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.dbutils.BeanProcessor;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bean.Station;
+import com.helpers.Properties;
 
 
 import static com.core.JDBCConfiguration.*;
@@ -18,6 +20,7 @@ import static com.helpers.SQLConstants.SELECT_ALL;
  * Created by Valentyn on 10/6/2015.
  */
 public class StationActionDao implements StationDAO {
+
 
     @Override
     public List<Station> getAllStationWithH2Server() throws SQLException {

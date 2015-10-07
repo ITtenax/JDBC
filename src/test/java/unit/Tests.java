@@ -4,12 +4,15 @@ package unit;
 import com.bean.Station;
 import com.core.StationDAO;
 import com.core.StationActionDao;
+import com.helpers.Properties;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import java.net.URISyntaxException;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +28,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * Created by Valentyn on 10/5/2015.
  */
 public class Tests {
-
+    private static Properties properties = Properties.getInstance();
 
     List<Station> stationList = Arrays.asList(new Station("13", "Phoenix", "AZ", "33.0", "112.0"),
             new Station("44", "Denver", "CO", "40.0", "105.0"),
@@ -63,22 +66,23 @@ public class Tests {
 
     @Test
     public void unitTestPart5() throws Exception {
-        ExecutorService executorService = Executors.newFixedThreadPool(1);
-        for (int i = 0; i < 10; i++) {
+        final ExecutorService executorService = Executors.newFixedThreadPool(1);
+        long start = 0;
+        for (int i = 0; i < 100000; i++) {
             executorService.execute(() -> {
                 List<Station> stations = null;
                 try {
-                    stations = new StationActionDao().getAllStationWithH2Server();
+                    stations = new StationActionDao().getAllStationWithH2Embedded();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
                 stations.stream().forEach(out::println);
             });
-            long start = System.currentTimeMillis();
-            executorService.shutdown();
-            executorService.awaitTermination(5, TimeUnit.MINUTES);
-            out.println("Done after " + (System.currentTimeMillis() - start));
+            start = System.currentTimeMillis();
         }
+        executorService.shutdown();
+        executorService.awaitTermination(5, TimeUnit.MINUTES);
+        out.println("Done after " + (System.currentTimeMillis() - start));
     }
 }
 
