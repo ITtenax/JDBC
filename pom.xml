@@ -52,12 +52,12 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.3</version>
                 <configuration>
-                    <verbose>true</verbose>
-                    <fork>true</fork>
-                    <compilerVersion>1.8</compilerVersion>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
+                <verbose>true</verbose>
+                <fork>true</fork>
+                <compilerVersion>1.8</compilerVersion>
+                <source>1.8</source>
+                <target>1.8</target>
+            </configuration>
             </plugin>
         </plugins>
     </build>

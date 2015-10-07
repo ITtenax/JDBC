@@ -1,4 +1,4 @@
-package core;
+package com.bean;
 
 /**
  * Created by Valentyn on 10/6/2015.

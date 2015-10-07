@@ -1,4 +1,4 @@
-package core;
+package com.helpers;
 
 /**
  * Created by Valentyn on 10/6/2015.

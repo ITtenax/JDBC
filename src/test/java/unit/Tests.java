@@ -1,11 +1,10 @@
 package unit;
 
 
-import core.Station;
-import core.StationDAO;
-import core.StationActionDao;
-import org.apache.commons.dbutils.BeanProcessor;
-import org.hamcrest.Matchers;
+import com.bean.Station;
+import com.core.StationDAO;
+import com.core.StationActionDao;
+
 import org.junit.Test;
 
 import java.net.URISyntaxException;
@@ -19,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 
 import static java.lang.System.out;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 
 /**
  * Created by Valentyn on 10/5/2015.
@@ -34,8 +32,11 @@ public class Tests {
     @Test
     public void unitTestPart2() throws SQLException, URISyntaxException {
         StationDAO stationDAO = new StationActionDao();
-        List<Station> stationsDB = new ArrayList<>(stationDAO.getAllStationWithJDBC());
-        //assertThat(stationList, equalTo(stationsDB));
+        for (int i = 0; i < 1000; i++) {
+            List<Station> stationsDB = stationDAO.getAllStationWithH2Server();
+            stationsDB.stream().forEach(out::println);
+            // assertThat(stationList, equalTo(stationsDB));
+        }
     }
 
     @Test
@@ -43,25 +44,29 @@ public class Tests {
         StationDAO stationDAO = new StationActionDao();
         for (int i = 0; i < 1000; i++) {
             List<Station> stationsDB = stationDAO.getAllStationWithPool();
-            assertThat(stationList, equalTo(stationsDB));
+            stationsDB.stream().forEach(out::println);
+            // assertThat(stationList, equalTo(stationsDB));
         }
     }
 
     @Test
     public void unitTestPart4() throws SQLException, URISyntaxException {
-
+        StationDAO stationDAO = new StationActionDao();
+        for (int i = 0; i < 1000; i++) {
+            List<Station> stationsDB = stationDAO.getAllStationWithH2Embedded();
+            stationsDB.stream().forEach(out::println);
+            // assertThat(stationList, equalTo(stationsDB));
+        }
     }
 
     @Test
-    public void unitTestPart5() throws SQLException, URISyntaxException, InterruptedException {
+    public void unitTestPart5() throws Exception {
         ExecutorService executorService = Executors.newFixedThreadPool(1);
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 10; i++) {
             executorService.execute(() -> {
                 List<Station> stations = null;
                 try {
-                    stations =  new StationActionDao().getAllStationWithPool();
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
+                    stations = new StationActionDao().getAllStationWithH2Server();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -70,7 +75,7 @@ public class Tests {
             long start = System.currentTimeMillis();
             executorService.shutdown();
             executorService.awaitTermination(5, TimeUnit.MINUTES);
-            System.out.println("Done after " + (System.currentTimeMillis() - start));
+            out.println("Done after " + (System.currentTimeMillis() - start));
         }
     }
 }

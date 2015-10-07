@@ -1,16 +1,11 @@
-package core;
+package com.helpers;
 
-/**
- * Created by Valentyn on 10/6/2015.
- */
 import ru.yandex.qatools.properties.PropertyLoader;
 import ru.yandex.qatools.properties.annotations.Property;
 import ru.yandex.qatools.properties.annotations.Resource;
 
 /**
- * User: Valentyn_Kvasov
- * Date: 28.09.2015
- * Time: 22:12
+ * Created by Valentyn on 10/6/2015.
  */
 
 @Resource.Classpath("testing.properties")
@@ -24,8 +19,11 @@ public class Properties {
     @Property("jdbc_driver_class")
     private String jdbc_driver_class;
 
-    @Property("jdbc_url")
-    private String jdbc_url;
+    @Property("jdbc_url_server")
+    private String jdbc_url_server;
+
+    @Property("jdbc_url_embedded")
+    private String jdbc_url_embedded;
 
     @Property("jdbc_pass")
     private String jdbc_pass;
@@ -49,7 +47,7 @@ public class Properties {
     }
 
     public String getJdbcUrl() {
-        return jdbc_url;
+        return jdbc_url_server;
     }
 
     public String getJdbcPass() {
@@ -58,5 +56,9 @@ public class Properties {
 
     public String getJdbcLogin() {
         return jdbc_login;
+    }
+
+    public String getJdbcUrlEmbedded() {
+        return jdbc_url_embedded;
     }
 }
