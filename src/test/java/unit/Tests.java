@@ -5,6 +5,8 @@ import com.bean.Station;
 import com.core.StationDAO;
 import com.core.StationActionDao;
 
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import java.net.URISyntaxException;
@@ -35,7 +37,7 @@ public class Tests {
         for (int i = 0; i < 1000; i++) {
             List<Station> stationsDB = stationDAO.getAllStationWithH2Server();
             stationsDB.stream().forEach(out::println);
-            // assertThat(stationList, equalTo(stationsDB));
+            //assertThat(stationList, Matchers.equalTo(stationsDB));
         }
     }
 
