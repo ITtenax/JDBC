@@ -22,14 +22,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import static java.lang.System.out;
+import static java.lang.System.setOut;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 /**
  * Created by Valentyn on 10/5/2015.
  */
 public class Tests {
-    private static Properties properties = Properties.getInstance();
-
     List<Station> stationList = Arrays.asList(new Station("13", "Phoenix", "AZ", "33.0", "112.0"),
             new Station("44", "Denver", "CO", "40.0", "105.0"),
             new Station("66", "Caribou", "ME", "47.0", "68.0"));
@@ -40,7 +40,7 @@ public class Tests {
         for (int i = 0; i < 1000; i++) {
             List<Station> stationsDB = stationDAO.getAllStationWithH2Server();
             stationsDB.stream().forEach(out::println);
-            //assertThat(stationList, Matchers.equalTo(stationsDB));
+            assertThat(stationList, equalTo(stationsDB));
         }
     }
 
@@ -50,25 +50,25 @@ public class Tests {
         for (int i = 0; i < 1000; i++) {
             List<Station> stationsDB = stationDAO.getAllStationWithPool();
             stationsDB.stream().forEach(out::println);
-            // assertThat(stationList, equalTo(stationsDB));
+            assertThat(stationList, equalTo(stationsDB));
         }
     }
 
     @Test
     public void unitTestPart4() throws SQLException, URISyntaxException {
         StationDAO stationDAO = new StationActionDao();
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 10000; i++) {
             List<Station> stationsDB = stationDAO.getAllStationWithH2Embedded();
             stationsDB.stream().forEach(out::println);
-            // assertThat(stationList, equalTo(stationsDB));
+            assertThat(stationList, equalTo(stationsDB));
         }
     }
 
     @Test
     public void unitTestPart5() throws Exception {
-        final ExecutorService executorService = Executors.newFixedThreadPool(1);
+        final ExecutorService executorService = Executors.newFixedThreadPool(5);
         long start = 0;
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 2000_00; i++) {
             executorService.execute(() -> {
                 List<Station> stations = null;
                 try {

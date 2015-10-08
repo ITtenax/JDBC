@@ -40,10 +40,9 @@ public class StationActionDao implements StationDAO {
 
     private List<Station> selectAllStation(Connection conn){
         List<Station> stations = new ArrayList<>();
-        try (Connection connection = conn;
-             Statement stmt = connection.createStatement();
-             ResultSet resultSet = stmt.executeQuery(SELECT_ALL)
-        ) {
+        try (Connection connection = conn) {
+            Statement stmt = connection.createStatement();
+            ResultSet resultSet = stmt.executeQuery(SELECT_ALL);
             while (resultSet.next()) {
                 stations.add((Station) new BeanProcessor().toBean(resultSet, Station.class));
             }
